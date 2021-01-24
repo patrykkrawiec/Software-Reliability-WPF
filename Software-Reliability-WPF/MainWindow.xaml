@@ -1,0 +1,157 @@
+﻿<Window x:Class="Software_Reliability_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Software_Reliability_WPF" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="Software Reliability Solver" Height="450" Width="800">
+
+    <TabControl>
+        <TabItem x:Name="OpenDialog_Tab" Header="Dane do badań">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="136*"/>
+                    <RowDefinition Height="65*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="OpenDialogButton" Content="Wybierz plik" Click="OpenDialogButton_Click" Margin="0,42,0,10" Grid.Row="1"/>
+                <Label x:Name="File_helper" Margin="0,236,80,0" FontSize="16" Grid.RowSpan="2" Height="78" VerticalAlignment="Top"/>
+
+            </Grid>
+        </TabItem>
+        <TabItem x:Name="JMModel_Tab" IsEnabled="False" Header="Model Jelinskiego-Morandy">
+            <Grid>
+                <TabControl>
+                    <TabItem Header="Badanie zakresu">
+                        <Grid>
+                            <Label Content="Wartość początkowa epsilon" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="JelinskiMorandaStartValue_TextBox" HorizontalAlignment="Left" Margin="166,12,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                            <TextBox x:Name="JelinskiMorandaStopValue_TextBox" HorizontalAlignment="Left" Margin="166,43,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                            <Label Content="Wartość końcowa epsilon" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Krok" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="JelinskiMorandaStepValue_TextBox" HorizontalAlignment="Left" Margin="166,74,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
+                            <Button x:Name="JelinskiMoranda_Spectrum_Solve_Button" Content="Oblicz" HorizontalAlignment="Left" Margin="0,103,0,0" VerticalAlignment="Top" Width="286" Click="JelinskiMoranda_Spectrum_Solve_Button_Clicked"/>
+                            <TabControl Margin="291,10,0,0">
+                                <TabItem Header="Fi" Margin="-2,-2,-69,-1">
+                                    <Grid>
+                                        <lvc:CartesianChart Series="{Binding JelinskiMorandaFiChart}" LegendLocation="Right" >
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis Title="Wartość parametru" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisY>
+                                            <lvc:CartesianChart.AxisX>
+                                                <lvc:Axis Title="Epsilon" Labels="{Binding Labels}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+                                        </lvc:CartesianChart>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="N" Margin="42,-2,-120,-1">
+                                    <Grid>
+                                        <Grid>
+                                            <lvc:CartesianChart Series="{Binding JelinskiMorandaNChart}" LegendLocation="Right" >
+                                                <lvc:CartesianChart.AxisY>
+                                                    <lvc:Axis Title="Wartość parametru" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                                                </lvc:CartesianChart.AxisY>
+                                                <lvc:CartesianChart.AxisX>
+                                                    <lvc:Axis Title="Epsilon" Labels="{Binding Labels}"></lvc:Axis>
+                                                </lvc:CartesianChart.AxisX>
+                                            </lvc:CartesianChart>
+                                        </Grid>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="ET" Margin="102,-2,-167,-1">
+                                    <Grid>
+                                        <lvc:CartesianChart Series="{Binding JelinskiMorandaETChart}" LegendLocation="Right" >
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis Title="Wartość parametru" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisY>
+                                            <lvc:CartesianChart.AxisX>
+                                                <lvc:Axis Title="Epsilon" Labels="{Binding Labels}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+                                        </lvc:CartesianChart>
+                                    </Grid>
+                                </TabItem>
+                            </TabControl>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Próba pojedyńczej wartości">
+                        <Grid>
+                            <Button x:Name="JelinskiMorandaSingeValueSolve_Button" Content="Rozwiąż dla pojedyńczej wartości" Margin="10,41,10,0" VerticalAlignment="Top" Click="JelinskiMorandaSingeValueSolve_Button_Click" Height="29"/>
+                            <Label Content="Epsilon" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="JelinskiMorandaSingleValue_TextBox" Margin="63,14,10,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                            <TextBox x:Name="JelinskiMorandaSingleValueResult_TextBox" Margin="10,120,10,10" Text="" TextWrapping="Wrap"/>
+                            <Label Content="Historia wyników" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </TabItem>
+        <TabItem x:Name="SWModel_Tab" IsEnabled="False" Header="Model Schicka-Wolvertona">
+            <Grid>
+                <TabControl>
+                    <TabItem Header="Badanie zakresu">
+                        <Grid>
+                            <Label Content="Wartość początkowa epsilon" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="SchickWolvertonStartValue_TextBox" HorizontalAlignment="Left" Margin="166,12,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                            <TextBox x:Name="SchickWolvertonStopValue_TextBox" HorizontalAlignment="Left" Margin="166,43,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                            <Label Content="Wartość końcowa epsilon" HorizontalAlignment="Left" Margin="0,41,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Krok" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="SchickWolvertonStepValue_TextBox" HorizontalAlignment="Left" Margin="166,74,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
+                            <Button x:Name="SchickWolverton_Spectrum_Solve_Button" Content="Oblicz" HorizontalAlignment="Left" Margin="0,103,0,0" VerticalAlignment="Top" Width="286" Click="SchickWolverton_Spectrum_Solve_Button_Click"/>
+                            <TabControl Margin="291,0,0,0">
+                                <TabItem Header="FI" Margin="-2,-2,-57,-1">
+                                    <Grid >
+                                        <lvc:CartesianChart Series="{Binding SchickWolvertonFiChart}" LegendLocation="Right" >
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis Title="Wartość parametru" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisY>
+                                            <lvc:CartesianChart.AxisX>
+                                                <lvc:Axis Title="Epsilon" Labels="{Binding Labels}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+                                        </lvc:CartesianChart>
+
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="N" Margin="44,-1,-111,-2">
+                                    <Grid>
+                                        <lvc:CartesianChart Series="{Binding SchickWolvertonNChart}" LegendLocation="Right" >
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis Title="Wartość parametru" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisY>
+                                            <lvc:CartesianChart.AxisX>
+                                                <lvc:Axis Title="Epsilon" Labels="{Binding Labels}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+                                        </lvc:CartesianChart>
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="ET" Margin="106,-1,-229,-2">
+                                    <Grid>
+                                        <lvc:CartesianChart Series="{Binding SchickWolvertonETChart}" LegendLocation="Right" >
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis Title="Wartość parametru" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisY>
+                                            <lvc:CartesianChart.AxisX>
+                                                <lvc:Axis Title="Epsilon" Labels="{Binding Labels}"></lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+                                        </lvc:CartesianChart>
+                                    </Grid>
+                                </TabItem>
+                            </TabControl>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Próba pojedyńczej wartości">
+                        <Grid>
+                            <Button x:Name="SchickWolvertonSingeValueSolve_Button" Content="Rozwiąż dla pojedyńczej wartości" Margin="10,41,10,0" VerticalAlignment="Top" Click="SchickWolvertonSingeValueSolve_Button_Click" Height="29"/>
+                            <Label Content="Epsilon" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="SchickWolvertonSingleValue_TextBox" Margin="63,14,10,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                            <TextBox x:Name="SchickWolvertonSingleValueResult_TextBox" Margin="10,120,10,10" Text="" TextWrapping="Wrap"/>
+                            <Label Content="Historia wyników" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </TabItem>
+    </TabControl>
+
+</Window>
